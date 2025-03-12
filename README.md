@@ -1,46 +1,42 @@
-> [!NOTE]
-> 欢迎使用本插件模板，该模板可以帮助你快速创建一个新的 Class Widgets 插件项目。
-> 此Readme文件是一个示例，可按需进行修改。
-> 
-> Tip: 若希望下列的徽标正常显示的话可以用替换将"repo-owner/repo-name"替换为你的仓库名。
-> 
-> 可在[此处](https://www.yuque.com/rinlit/cw-docs-dev)查看教程。
+# 正方系统课表导入插件
 
-<div align="center">
-<img src="icon.png" alt="插件图标" width="18%">
-<h1>Class Widgets 插件模板</h1>
+[![星标](https://img.shields.io/github/stars/Guyao146/CW-ZhengFangPlugins?style=for-the-badge&color=orange&label=星标)](https://github.com/Guyao146/CW-ZhengFangPlugins)
+[![开源许可](https://img.shields.io/badge/license-MIT-darkgreen.svg?label=开源许可证&style=for-the-badge)](https://github.com/Guyao146/CW-ZhengFangPlugins)
+[![下载量](https://img.shields.io/github/downloads/Guyao146/CW-ZhengFangPlugins/total.svg?label=下载量&color=green&style=for-the-badge)](https://github.com/Guyao146/CW-ZhengFangPlugins)
 
+## 简介
 
-[![星标](https://img.shields.io/github/stars/repo-owner/repo-name?style=for-the-badge&color=orange&label=星标)](https://github.com/repo-owner/repo-name)
-[![开源许可](https://img.shields.io/badge/license-MIT-darkgreen.svg?label=开源许可证&style=for-the-badge)](https://github.com/repo-owner/repo-name)
-[![下载量](https://img.shields.io/github/downloads/repo-owner/repo-name/total.svg?label=下载量&color=green&style=for-the-badge)](https://github.com/repo-owner/repo-name)
+本插件用于从正方教务系统导入课表数据，支持自动同步和手动更新功能。
 
-</div>
+## 安装
 
-## 介绍
+1. 下载插件压缩包
+2. 解压到Class Widgets插件目录
+3. 重启Class Widgets
 
-本项目是一个 Class Widgets 插件模板，可以帮助你快速创建一个新的 Class Widgets 插件项目。
+## 使用指南
 
-### 截图
-![截图1](img/img.png)
+1. 打开插件设置页面
+2. 输入正方系统账号信息
+3. 点击"导入课表"按钮
+4. 查看导入的课表数据
 
-### 特性
+## 配置说明
 
-- 第一个特性
-- 第二个特性
-- 第三个特性
+### 账号设置
+- 用户名：正方系统登录账号
+- 密码：正方系统登录密码
+- API地址：正方系统API地址（默认已填写）
+
+### 同步设置
+- 自动同步：开启后每天自动同步课表
+- 同步时间：设置自动同步的时间
 
 ## 许可证
-本插件采用了 MIT 许可证，详情请查看 [LICENSE](LICENSE) 文件。
-Copyright © 2025 Your Name.
+
+本项目采用 MIT 许可证，详情请查看 [LICENSE](LICENSE) 文件。
 
 ## 鸣谢
 
-### 贡献者
-Thanks goes to these wonderful people:
-[![Contributors](http://contrib.nn.ci/api?repo=repo-owner/repo-name)](https://github.com/repo-owner/repo-name/graphs/contributors)
-
-### 使用的资源
-
-- [资源1](https://example.com)
-- [资源2](https://example.com)
+- Class Widgets 开发团队
+- 正方系统API提供方

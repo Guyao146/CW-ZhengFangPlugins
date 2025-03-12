@@ -1,40 +1,83 @@
-"""
-    这是一个示例插件
-    Author: 君の名は
+import requests
+import json
+import time
+from datetime import datetime
+from PyQt5.QtCore import QTimer
 
-    Tips:
-    若要在插件广场推送您的更新，请手动修改"plugin.json"的"version"版本号字段以被插件广场识别
-"""
-from PyQt5 import uic
-from .ClassWidgets.base import PluginBase, SettingsBase  # 导入CW的基类
-
-
-class Plugin(PluginBase):  # 插件类
-    def __init__(self, cw_contexts, method):  # 初始化
-        super().__init__(cw_contexts, method)  # 调用父类初始化方法
-        """
-        插件初始化，插件被执行时将会执行此部分的代码
-        """
-
-    def execute(self):  # 自启动执行部分
-        """
-        当 Class Widgets启动时，将会执行此部分的代码
-        """
-        print('Plugin Executed!')
-
-    def update(self, cw_contexts):  # 自动更新部分
-        """
-            Class Widgets 会每1秒更新一次状态，同时也会调用此部分的代码。
-            可在此部分插入动态更新的内容
-        """
-        super().update(cw_contexts)  # 调用父类更新方法
-
-
-# 设置页（若无此需求，请删除此部分并将"__init__.py"中引用的本模块部分删除，并在"plugins.json"中把"settings"子块设为"false"）
-class Settings(SettingsBase):
-    def __init__(self, plugin_path, parent=None):
-        super().__init__(plugin_path, parent)
-        uic.loadUi(f'{self.PATH}/settings.ui', self)  # 加载设置界面
-        """
-        在这里写设置页面
-        """
+class ZhengFangPlugin:
+    def __init__(self, settings):
+        self.settings = settings
+        self.session = requests.Session()
+        self.timer = QTimer()
+        
+        # 初始化自动同步
+        if self.settings['auto_sync']:
+            self.start_auto_sync()
+            
+    def login(self):
+        """登录正方系统"""
+        login_url = f"{self.settings['api_url']}/login"
+        payload = {
+            'username': self.settings['username'],
+            'password': self.settings['password']
+        }
+        
+        try:
+            response = self.session.post(login_url, data=payload)
+            response.raise_for_status()
+            return True
+        except requests.exceptions.RequestException as e:
+            print(f"登录失败: {e}")
+            return False
+            
+    def get_schedule(self):
+        """获取课表数据"""
+        if not self.login():
+            return None
+            
+        schedule_url = f"{self.settings['api_url']}/schedule"
+        try:
+            response = self.session.get(schedule_url)
+            response.raise_for_status()
+            return response.json()
+        except requests.exceptions.RequestException as e:
+            print(f"获取课表失败: {e}")
+            return None
+            
+    def parse_schedule(self, data):
+        """解析课表数据"""
+        schedule = []
+        for course in data['courses']:
+            schedule.append({
+                'name': course['name'],
+                'teacher': course['teacher'],
+                'time': course['time'],
+                'location': course['location']
+            })
+        return schedule
+        
+    def save_schedule(self, schedule):
+        """保存课表数据"""
+        timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
+        filename = f"schedule_{timestamp}.json"
+        with open(filename, 'w', encoding='utf-8') as f:
+            json.dump(schedule, f, ensure_ascii=False, indent=2)
+            
+    def start_auto_sync(self):
+        """启动自动同步"""
+        self.timer.timeout.connect(self.sync_schedule)
+        self.timer.start(3600000)  # 每小时同步一次
+        
+    def sync_schedule(self):
+        """同步课表"""
+        print("开始同步课表...")
+        data = self.get_schedule()
+        if data:
+            schedule = self.parse_schedule(data)
+            self.save_schedule(schedule)
+            print("课表同步完成")
+            
+def main(settings):
+    plugin = ZhengFangPlugin(settings)
+    # 首次启动时立即同步
+    plugin.sync_schedule()

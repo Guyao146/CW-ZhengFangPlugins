@@ -1,13 +1,38 @@
 {
-    "name": "Class Widgets 插件模板",
-    "description": "这里是简介，用简短的语言描述插件的功能。",
+    "name": "正方系统课表导入插件",
+    "description": "从正方教务系统导入课表数据",
     "version": "1.0.0",
     "plugin_ver": 1,
-    "author": "你的名字",
-    "settings": true,
-
-    "url": "https://github.com/{repo-owner}/{repo}",
+    "author": "guyao",
+    "license": "MIT",
+    "main": "main.py",
+    "icon": "icon.png",
+    "settings": {
+        "username": {
+            "type": "string",
+            "default": "",
+            "description": "正方系统用户名"
+        },
+        "password": {
+            "type": "string", 
+            "default": "",
+            "description": "正方系统密码"
+        },
+        "api_url": {
+            "type": "string",
+            "default": "https://api.zf.com/v1",
+            "description": "正方系统API地址"
+        },
+        "auto_sync": {
+            "type": "bool",
+            "default": true,
+            "description": "自动同步课表"
+        }
+    },
+    "dependencies": {
+        "requests": ">=2.25.1"
+    },
+    "url": "https://github.com/Guyao146/CW-ZhengFangPlugins",
     "branch": "main",
-
-    "update_date": "yyyy/mm/dd"
+    "update_date": "2025/03/12"
 }
